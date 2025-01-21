@@ -5,3 +5,6 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def wei_to_eth(amount):
+    return amount/10**18

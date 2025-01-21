@@ -1,0 +1,26 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: frontend
+    healthcheck:
+      test: curl --fail http://localhost:8000/faucet/environment || exit 1
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    volumes:
+      - data:/data
+    ports:
+      - 8000:8000
+    environment:
+      WHALE_PRIVATE_KEY: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      DB_PATH: "/data"
+      RPC_ADDRESS: "http://sepolia1.local.mainnet.community:8545"
+      FUND_TIMEOUT: 60
+      FUND_AMOUNT_WEI: 100000000000000000
+
+volumes:
+  data:

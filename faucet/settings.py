@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from os import getenv
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,11 +80,11 @@ REST_FRAMEWORK = {
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+DB_PATH = Path(getenv('DB_PATH', BASE_DIR))
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": DB_PATH / "db.sqlite3",
     }
 }
 
@@ -127,3 +129,11 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+APP_SETTINGS = {
+    'RPC_ADDRESS': getenv('RPC_ADDRESS', 'http://sepolia1.local.mainnet.community:8545'),
+    'FUND_TIMEOUT': int(getenv('FUND_TIMEOUT', 60)),
+    'FUND_AMOUNT_WEI': int(getenv('FUND_AMOUNT_WEI', int(10**17))),
+    'WHALE_PRIVATE_KEY': getenv('WHALE_PRIVATE_KEY', 'missing_key')
+}
